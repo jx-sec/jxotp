@@ -32,25 +32,24 @@ def pam_sm_authenticate(pamh, flags, argv):
                 code = resp.resp[-6:]
                 if otp_auth(code):
                         pamh.authtok = resp.resp[:-6]
-                        otp_log("login success,code is "+resp.resp[-6:])
+			otp_log("login user is "+pamh.user+",login success,code is "+resp.resp[-6:])
                 else:
                         pamh.authtok = ""
-                        otp_log("login fail,code is "+resp.resp[-6:])
-		        otp_log("login fail,code must is "+otp_code())
+			otp_log("login user is "+pamh.user+",login fail,code is "+ resp.resp[-6:]+",must  "+otp_code())
                 return pamh.PAM_SUCCESS
         else:
                 for user in CHECK_USER:
-                        if pamh.ruser == user:
+                        if pamh.user == user:
                                 resp = pamh.conversation(pamh.Message(pamh.PAM_PROMPT_ECHO_OFF,'Password:'))
                                 code = resp.resp[-6:]
                                 if otp_auth(code):
                                         pamh.authtok = resp.resp[:-6]
-                                        otp_log("login success,code is "+resp.resp[-6:])
+					otp_log("login user is "+pamh.user+",login success,code is "+resp.resp[-6:])
                                 else:
                                         pamh.authtok = ""
-                                        otp_log("login fail,code is "+resp.resp[-6:])
-		                        otp_log("login fail,code must is "+otp_code())
+					otp_log("login user is "+pamh.user+",login fail,code is "+ resp.resp[-6:]+",must  "+otp_code())
                         else:
+				otp_log("user login otp check bypass,user is  "+ pamh.user)
                                 return pamh.PAM_SUCCESS
 
 def pam_sm_setcred(pamh, flags, argv):
