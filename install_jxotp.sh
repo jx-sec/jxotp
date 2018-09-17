@@ -1,4 +1,4 @@
-yum install epel-release pam pam-devel gcc python-devel  python-pip git -y
+yum install epel-release pam pam-devel gcc python-devel  git -y
 git clone https://github.com/jx-sec/pam-python-ipcpu.git
 cd pam-python-ipcpu/
 make lib
